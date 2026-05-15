@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmet Eren Yakut | Portfolyo</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    
+    <style>
+        /* --- TEMA DEĞİŞKENLERİ --- */
+        :root {
+            --bg-color: #eef1f6; 
+            --accent-color: #0056b3;
+            --text-main: #1a1d20;
+            --text-muted: #5c636a;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 0, 0, 0.15); 
+            --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --btn-border: rgba(0, 0, 0, 0.2);
+            --arch-blue: #1793d1;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --hover-bg: rgba(0, 86, 179, 0.1); 
+            --skill-box-bg: rgba(0, 0, 0, 0.03); 
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0b0f19;
+            --accent-color: #007bff;
+            --text-main: #ffffff;
+            --text-muted: #a0aabf;
+            --glass-bg: rgba(11, 15, 25, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); 
+            --btn-border: rgba(255, 255, 255, 0.2);
+            --nav-bg: rgba(11, 15, 25, 0.9);
+            --hover-bg: rgba(0, 123, 255, 0.15); 
+            --skill-box-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        /* --- GENEL AYARLAR --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth; 
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .text-muted { color: var(--text-muted) !important; }
+
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        section, .hero-section { position: relative; z-index: 1; padding: 100px 0; }
+
+        /* --- KAYDIRMA (SCROLL) ANİMASYONLARI --- */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 3rem;
+            transition: all 0.4s ease;
+        }
+
+        /* --- NAVIGASYON --- */
+        .navbar { background-color: var(--nav-bg) !important; backdrop-filter: blur(10px); transition: background-color 0.4s ease; }
+        .navbar-brand { font-weight: 800; color: var(--text-main) !important; display: flex; align-items: center; gap: 10px; }
+        .nav-link { color: var(--text-muted) !important; margin-left: 1rem; transition: 0.3s; font-weight: 500;}
+        .nav-link:hover { color: var(--accent-color) !important; }
+
+        .arch-logo { width: 32px; height: 32px; fill: var(--arch-blue); animation: pulse-glow 3s infinite ease-in-out; }
+        @keyframes pulse-glow { 0%, 100% { filter: drop-shadow(0 0 2px var(--arch-blue)); transform: scale(1); } 50% { filter: drop-shadow(0 0 10px var(--arch-blue)); transform: scale(1.05); } }
+
+        .dropdown-menu { background-color: var(--nav-bg); border: 1px solid var(--btn-border); box-shadow: var(--glass-shadow); }
+        .dropdown-item { color: var(--text-main) !important; transition: all 0.2s ease; font-weight: 500; }
+        .dropdown-item:hover { background-color: var(--hover-bg) !important; color: var(--accent-color) !important; transform: translateX(5px); }
+
+        /* --- HERO --- */
+        .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .hero-title { font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .hero-title .highlight { color: var(--accent-color); }
+        .hero-subtitle { color: var(--text-muted); font-size: 1.25rem; max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.6; }
+
+        /* --- BUTONLAR --- */
+        .expand-btn {
+            display: inline-flex; align-items: center; background: transparent;
+            border: 1px solid var(--btn-border); color: var(--text-main);
+            padding: 12px; border-radius: 50px; text-decoration: none; overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); white-space: nowrap; height: 50px;
+        }
+        .expand-btn i { font-size: 1.3rem; margin: 0; width: 24px; transition: margin 0.4s; }
+        .expand-btn span { max-width: 0; opacity: 0; font-weight: 600; font-size: 0.95rem; transition: all 0.4s; }
+        .expand-btn:hover { background: var(--accent-color); border-color: var(--accent-color); color: #fff; padding: 12px 24px; }
+        .expand-btn:hover i { margin-right: 10px; }
+        .expand-btn:hover span { max-width: 250px; opacity: 1; }
+
+        .btn-custom-filled { background-color: var(--accent-color); color: white; border: none; border-radius: 50px; padding: 12px 30px; font-weight: 600; transition: 0.3s; text-decoration: none; display: inline-block; }
+        .btn-custom-filled:hover { background-color: var(--text-main); color: var(--bg-color); transform: translateY(-3px); }
+
+        .control-btn { background: transparent; border: 1px solid var(--btn-border); color: var(--text-main); border-radius: 50px; padding: 5px 15px; font-weight: 600; font-size: 0.9rem; transition: 0.3s; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .control-btn:hover { background: var(--text-muted); color: var(--bg-color); }
+
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; text-align: center; }
+        
+        /* --- PROJE KARTLARI --- */
+        .project-card {
+            background-color: var(--bg-color) !important; 
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            color: var(--text-main); 
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--glass-shadow);
+            border-color: var(--accent-color);
+        }
+        
+        /* --- BECERİ KUTUCUKLARI (SKILL BOX) --- */
+        .skill-box {
+            background-color: var(--skill-box-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            aspect-ratio: 1 / 1; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: default; 
+        }
+        .skill-box:hover {
+            transform: translateY(-5px) scale(1.03); 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+        .skill-box i { transition: transform 0.3s ease; }
+        .skill-box:hover i { transform: scale(1.1); }
+        
+    </style>
+</head>
+<body>
+
+    <div id="tsparticles"></div>
+
+    <nav class="navbar navbar-expand-lg sticky-top border-bottom" style="border-color: var(--glass-border) !important;">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <svg class="arch-logo" viewBox="0 0 512 512">
+                    <path d="M256 32L32 432s120-40 224-40 224 40 224 40L256 32z"/>
+                    <path d="M256 160l-96 176s60-20 96-20 96 20 96 20l-96-176z" opacity=".5"/>
+                </svg>
+                AHMET EREN YAKUT
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list" style="color: var(--text-main); font-size: 1.5rem;"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link lang-text" href="#hakkimda" data-tr="Hakkımda" data-en="About">Hakkımda</a></li>
+                    <li class="nav-item"><a class="nav-link lang-text" href="#beceriler" data-tr="Beceriler" data-en="Skills">Beceriler</a></li>
+                    <li class="nav-item"><a class="nav-link lang-text" href="#projeler" data-tr="Projeler" data-en="Projects">Projeler</a></li>
+                    <li class="nav-item"><a class="nav-link lang-text" href="#iletisim" data-tr="İletişim" data-en="Contact">İletişim</a></li>
+                    
+                    <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0">
+                        <a class="btn btn-custom-filled dropdown-toggle lang-text" href="#" role="button" data-bs-toggle="dropdown" data-tr="CV İndir" data-en="Download CV">CV İndir</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item lang-text" href="Ahmet_Eren_Yakut_CV_TR.pdf" download="Ahmet_Eren_Yakut_CV_TR.pdf" type="application/octet-stream" data-tr="Türkçe Özgeçmiş" data-en="Turkish CV">Türkçe Özgeçmiş</a></li>
+                            <li><a class="dropdown-item lang-text" href="Ahmet_Eren_Yakut_CV_EN.pdf" download="Ahmet_Eren_Yakut_CV_EN.pdf" type="application/octet-stream" data-tr="İngilizce Özgeçmiş" data-en="English CV">İngilizce Özgeçmiş</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item d-flex gap-2 ms-lg-4 mt-3 mt-lg-0">
+                        <button id="themeToggle" class="control-btn"><i class="bi bi-moon-fill" id="themeIcon"></i></button>
+                        <button id="langToggle" class="control-btn">EN</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section container">
+        <h1 class="hero-title lang-text" data-tr="Verinin ve Sistemin <br> Arka Planını <span class='highlight'>Yönetiyorum</span>" data-en="Managing the <br> Core and <span class='highlight'>Backend</span>">
+            Verinin ve Sistemin <br> Arka Planını <span class="highlight">Yönetiyorum</span>
+        </h1>
+        <p class="hero-subtitle lang-text" data-tr="Backend sistemler, veritabanı mimarisi ve Linux sunucu yönetimi üzerine odaklanan bir developer'ım. Sağlam ve ölçeklenebilir altyapılar inşa ediyorum." data-en="I am a developer focused on backend systems, database architecture, and Linux server management. Building robust and scalable infrastructures.">
+            Backend sistemler, veritabanı mimarisi ve Linux sunucu yönetimi üzerine odaklanan bir developer'ım. Sağlam ve ölçeklenebilir altyapılar inşa ediyorum.
+        </p>
+        
+        <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+            <a href="#projeler" class="btn btn-custom-filled lang-text" data-tr="Projeleri İncele" data-en="View Projects">Projeleri İncele</a>
+            <a href="https://github.com/erenyakut35/" target="_blank" class="expand-btn"><i class="bi bi-github"></i><span class="lang-text" data-tr="GitHub Profilim" data-en="My GitHub">GitHub Profilim</span></a>
+            <a href="https://www.linkedin.com/in/ahmet-eren-yakut-076b913b0/" target="_blank" class="expand-btn"><i class="bi bi-linkedin"></i><span class="lang-text" data-tr="LinkedIn Profilim" data-en="My LinkedIn">LinkedIn Profilim</span></a>
+        </div>
+    </header>
+
+    <section id="hakkimda" class="fade-in-section">
+        <div class="container glass-panel">
+            <h2 class="section-title lang-text" data-tr="Hakkımda" data-en="About Me">Hakkımda</h2>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                    <div class="p-4 rounded-circle d-inline-block" style="background-color: var(--skill-box-bg); border: 1px solid var(--glass-border);">
+                        <i class="bi bi-terminal-fill" style="font-size: 6rem; color: var(--accent-color);"></i>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <p class="lang-text mb-3" style="font-size: 1.1rem; line-height: 1.8;"
+                       data-tr="İzmir Ekonomi Üniversitesi'nde Bilgisayar Programcılığı bölümü öğrencisiyim. Backend sistemler ve veritabanı yönetimi konularında güçlü bir teknik temele sahibim." 
+                       data-en="I am a Computer Programming student at Izmir University of Economics. I have a strong technical foundation in backend systems and database management.">
+                       İzmir Ekonomi Üniversitesi'nde Bilgisayar Programcılığı bölümü öğrencisiyim. Backend sistemler ve veritabanı yönetimi konularında güçlü bir teknik temele sahibim.
+                    </p>
+                    <p class="lang-text mb-3" style="font-size: 1.1rem; line-height: 1.8;"
+                       data-tr="Ön yüz tasarımından ziyade asıl tutkum <strong style='color: var(--accent-color);'>Backend Geliştirme</strong> ve <strong style='color: var(--accent-color);'>Veritabanı Yönetimi</strong>. Özellikle karmaşık SQL sorguları yazmak, veritabanı mimarilerini tasarlamak ve Nesne Yönelimli Programlama (OOP) standartlarıyla sistemler kurmak en büyük ilgi alanım." 
+                       data-en="While I am familiar with frontend concepts, my true passion lies in <strong style='color: var(--accent-color);'>Backend Development</strong> and <strong style='color: var(--accent-color);'>Database Management</strong>. Writing complex SQL queries, designing database architectures, and building systems with OOP standards are my biggest interests.">
+                       Ön yüz tasarımından ziyade asıl tutkum <strong style='color: var(--accent-color);'>Backend Geliştirme</strong> ve <strong style='color: var(--accent-color);'>Veritabanı Yönetimi</strong>. Özellikle karmaşık SQL sorguları yazmak, veritabanı mimarilerini tasarlamak ve Nesne Yönelimli Programlama (OOP) standartlarıyla sistemler kurmak en büyük ilgi alanım.
+                    </p>
+                    <p class="lang-text mb-0" style="font-size: 1.1rem; line-height: 1.8;"
+                       data-tr="Sadece kod yazmakla kalmıyor, işin mutfağına inmeyi de çok seviyorum. <strong style='color: var(--accent-color);'>Linux işletim sistemleri</strong>, sunucu yapılandırmaları ve ağ yönetimi konularında uzmanlaşmaya odaklanıyorum. Amacım; arka planda performanslı, güvenli ve teknik derinliği olan sağlam sistemler inşa etmek." 
+                       data-en="I don't just stop at writing code; I love diving into the core of the system. I focus on specializing in <strong style='color: var(--accent-color);'>Linux operating systems</strong>, server configurations, and network management. My goal is to build robust systems that are performant, secure, and technically deep.">
+                       Sadece kod yazmakla kalmıyor, işin mutfağına inmeyi de çok seviyorum. <strong style='color: var(--accent-color);'>Linux işletim sistemleri</strong>, sunucu yapılandırmaları ve ağ yönetimi konularında uzmanlaşmaya odaklanıyorum. Amacım; arka planda performanslı, güvenli ve teknik derinliği olan sağlam sistemler inşa etmek.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beceriler" class="fade-in-section">
+        <div class="container glass-panel">
+            <h2 class="section-title lang-text" data-tr="Teknik Yetkinlikler" data-en="Technical Skills">Teknik Yetkinlikler</h2>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4 mt-3">
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-html5-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">HTML</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-css3-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">CSS</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-javascript-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">JavaScript</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-mysql-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">SQL (MySQL)</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-php-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">PHP</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-csharp-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">C#</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-java-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">Java</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-dart-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">Dart</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-flutter-plain colored fs-1 mb-3"></i><span class="fw-bold fs-6">Flutter</span></div></div>
+                <div class="col"><div class="skill-box p-3 text-center h-100"><i class="devicon-unrealengine-original colored fs-1 mb-3"></i><span class="fw-bold fs-6">Unreal (Blueprint)</span></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projeler" class="fade-in-section">
+        <div class="container glass-panel">
+            <h2 class="section-title lang-text" data-tr="Seçili Projeler" data-en="Selected Projects">Seçili Projeler</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card h-100 p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-cart-check-fill me-3" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            <h4 class="card-title fw-bold m-0">YakutDoğan Pazar Yeri</h4>
+                        </div>
+                        <p class="card-text text-muted lang-text" data-tr="PHP ve SQL ile geliştirilmiş, kalıcı sepet ve ilan yönetimi içeren C2C donanım e-ticaret platformu." data-en="C2C hardware e-commerce platform with persistent cart and ad management, built with PHP & SQL.">PHP ve SQL ile geliştirilmiş, kalıcı sepet ve ilan yönetimi içeren C2C donanım e-ticaret platformu.</p>
+                        <div class="mt-auto">
+                            <div class="mb-3"><span class="badge bg-primary">PHP</span> <span class="badge bg-secondary">MySQL</span> <span class="badge bg-dark">Full-Stack</span></div>
+                            <a href="https://github.com/erenyakut35/YakutDoganWebProje" target="_blank" class="btn btn-custom-filled w-100 stretched-link"><i class="bi bi-github me-2"></i>GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card h-100 p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-bar-chart-line-fill me-3" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            <h4 class="card-title fw-bold m-0">Oyun Satış Analizi</h4>
+                        </div>
+                        <p class="card-text text-muted lang-text" data-tr="Python Pandas kütüphanesi kullanılarak 16.500+ oyun verisinin işlendiği veri analizi projesi." data-en="Data analysis project processing 16,500+ game records using Python Pandas.">Python Pandas kütüphanesi kullanılarak 16.500+ oyun verisinin işlendiği veri analizi projesi.</p>
+                        <div class="mt-auto">
+                            <div class="mb-3"><span class="badge bg-primary">Python</span> <span class="badge bg-secondary">Pandas</span> <span class="badge bg-dark">Data Science</span></div>
+                            <a href="https://github.com/erenyakut35/OyunlarVeKonsollarSatisAnalizleri" target="_blank" class="btn btn-custom-filled w-100 stretched-link"><i class="bi bi-github me-2"></i>GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card h-100 p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-recycle me-3" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            <h4 class="card-title fw-bold m-0">Çevre Vakfı Sistemi</h4>
+                        </div>
+                        <p class="card-text text-muted lang-text" data-tr="CustomTkinter ve MySQL ile geliştirilmiş, Stored Procedure destekli vakıf otomasyonu." data-en="Foundation automation with Stored Procedures, built with CustomTkinter & MySQL.">CustomTkinter ve MySQL ile geliştirilmiş, Stored Procedure destekli vakıf otomasyonu.</p>
+                        <div class="mt-auto">
+                            <div class="mb-3"><span class="badge bg-primary">Python</span> <span class="badge bg-secondary">MySQL</span> <span class="badge bg-dark">GUI</span></div>
+                            <a href="https://github.com/erenyakut35/CevreVakifSistemi" target="_blank" class="btn btn-custom-filled w-100 stretched-link"><i class="bi bi-github me-2"></i>GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card h-100 p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-person-vcard-fill me-3" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            <h4 class="card-title fw-bold m-0">TC No Üretici</h4>
+                        </div>
+                        <p class="card-text text-muted lang-text" data-tr="NVİ matematiksel doğrulama algoritmalarını simüle eden C# algoritma projesi." data-en="C# algorithm project simulating NVİ mathematical validation rules.">NVİ matematiksel doğrulama algoritmalarını simüle eden C# algoritma projesi.</p>
+                        <div class="mt-auto">
+                            <div class="mb-3"><span class="badge bg-primary">C#</span> <span class="badge bg-secondary">Algorithms</span> <span class="badge bg-dark">Console</span></div>
+                            <a href="https://github.com/erenyakut35/Random_TC_Number" target="_blank" class="btn btn-custom-filled w-100 stretched-link"><i class="bi bi-github me-2"></i>GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card h-100 p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-activity me-3" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            <h4 class="card-title fw-bold m-0">EkoFit Takip</h4>
+                        </div>
+                        <p class="card-text text-muted lang-text" data-tr="Java JDBC ile geliştirilmiş, veritabanı bağlantılı kalori ve spor takip sistemi." data-en="Calorie and workout tracker with database connectivity, built with Java JDBC.">Java JDBC ile geliştirilmiş, veritabanı bağlantılı kalori ve spor takip sistemi.</p>
+                        <div class="mt-auto">
+                            <div class="mb-3"><span class="badge bg-primary">Java</span> <span class="badge bg-secondary">JDBC</span> <span class="badge bg-dark">MySQL</span></div>
+                            <a href="https://github.com/erenyakut35/Eko_Fit_Proje" target="_blank" class="btn btn-custom-filled w-100 stretched-link"><i class="bi bi-github me-2"></i>GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card h-100 p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-car-front-fill me-3" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            <h4 class="card-title fw-bold m-0">Araç Kiralama</h4>
+                        </div>
+                        <p class="card-text text-muted lang-text" data-tr="C# WinForms ve SQL Server ile geliştirilmiş rol bazlı araç yönetim otomasyonu." data-en="Role-based car management automation built with C# WinForms & SQL Server.">C# WinForms ve SQL Server ile geliştirilmiş rol bazlı araç yönetim otomasyonu.</p>
+                        <div class="mt-auto">
+                            <div class="mb-3"><span class="badge bg-primary">C#</span> <span class="badge bg-secondary">WinForms</span> <span class="badge bg-dark">SQL Server</span></div>
+                            <a href="https://github.com/erenyakut35/AracKiralamaProje" target="_blank" class="btn btn-custom-filled w-100 stretched-link"><i class="bi bi-github me-2"></i>GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="iletisim" class="fade-in-section">
+        <div class="container glass-panel text-center">
+            <h2 class="section-title mb-5 lang-text" data-tr="İletişime Geç" data-en="Get in Touch">İletişime Geç</h2>
+            <div class="d-flex justify-content-center gap-4 flex-wrap">
+                <a href="mailto:erenyakut35@gmail.com" class="expand-btn"><i class="bi bi-envelope-fill"></i><span class="lang-text" data-tr="E-Posta Gönder" data-en="Send Email">E-Posta Gönder</span></a>
+                <a href="https://www.linkedin.com/in/ahmet-eren-yakut-076b913b0/" target="_blank" class="expand-btn"><i class="bi bi-linkedin"></i><span class="lang-text" data-tr="LinkedIn" data-en="LinkedIn">LinkedIn</span></a>
+                <a href="https://github.com/erenyakut35/" target="_blank" class="expand-btn"><i class="bi bi-github"></i><span class="lang-text" data-tr="GitHub" data-en="GitHub">GitHub</span></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4 text-center text-muted small" style="border-top: 1px solid var(--glass-border);">
+        <div class="container lang-text" data-tr="© 2026 Ahmet Eren Yakut. Tüm hakları saklıdır." data-en="© 2026 Ahmet Eren Yakut. All rights reserved.">© 2026 Ahmet Eren Yakut. Tüm hakları saklıdır.</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script>
+        tsParticles.load("tsparticles", {
+            fpsLimit: 60,
+            interactivity: { events: { onHover: { enable: true, mode: "grab" }, resize: true }, modes: { grab: { distance: 140, links: { opacity: 0.8 } } } },
+            particles: { color: { value: "#007bff" }, links: { color: "#007bff", distance: 150, enable: true, opacity: 0.3, width: 1 }, move: { enable: true, speed: 1.2 }, number: { density: { enable: true, area: 800 }, value: 70 }, opacity: { value: 0.5 }, shape: { type: "circle" }, size: { value: { min: 1, max: 2 } } },
+            detectRetina: true
+        });
+
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                htmlElement.setAttribute('data-theme', 'light');
+                themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeIcon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+            }
+        });
+
+        const langToggleBtn = document.getElementById('langToggle');
+        let currentLang = 'tr';
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'tr' ? 'en' : 'tr';
+            langToggleBtn.textContent = currentLang === 'tr' ? 'EN' : 'TR';
+            document.querySelectorAll('.lang-text').forEach(el => {
+                if (el.innerHTML.includes('<span') || el.innerHTML.includes('<br>') || el.innerHTML.includes('<strong')) { el.innerHTML = el.getAttribute(`data-${currentLang}`); }
+                else { el.textContent = el.getAttribute(`data-${currentLang}`); }
+            });
+        });
+
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('is-visible'); }
+                else { entry.target.classList.remove('is-visible'); }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.fade-in-section').forEach((section) => { observer.observe(section); });
+    </script>
+</body>
+</html>
